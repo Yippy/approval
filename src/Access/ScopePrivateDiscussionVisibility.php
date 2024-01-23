@@ -29,11 +29,11 @@ class ScopePrivateDiscussionVisibility
             // approve posts.
             $query->where('discussions.is_approved', 0);
 
-            if (! $actor->hasPermission('discussion.approvePosts')) {
+            if ($actor->hasPermission('discussion.viewPrivate')) {
                 $query->where(function (Builder $query) use ($actor) {
                     $query->where('discussions.user_id', $actor->id)
                         ->orWhere(function ($query) use ($actor) {
-                            $query->whereVisibleTo($actor, 'approvePosts');
+                            $query->whereVisibleTo($actor, 'discussion.viewPrivate');
                         });
                 });
             }
