@@ -31,7 +31,7 @@ class ScopePrivatePostVisibility
             // approve posts.
             $query->where('posts.is_approved', 0);
 
-            if (! $actor->hasPermission('discussion.viewPrivate')) {
+            if ($actor->hasPermission('discussion.viewPrivate')) {
                 $query->where(function (Builder $query) use ($actor) {
                     $query->where('posts.user_id', $actor->id)
                         ->orWhereExists($this->discussionWhereCanApprovePosts($actor));
